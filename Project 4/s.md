@@ -1,2 +1,2 @@
-#Customer value analysis
+# Customer value analysis
 The goal of this post is to analyse a dataset and provide some useful information regarding customers demographics and buying behaviour. I choose to qork on a dataset from IBM Watson Analytics (available here). I will provide answers to assigned questions by visualization methods in Python. This dataset will show us the most profitable customers and how they interact. I will show you how you can increase profitable customer response, retention and growth. let's start!
