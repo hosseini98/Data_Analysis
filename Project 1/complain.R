@@ -5,13 +5,6 @@
 # 1) Import the data
 library(tidyverse)
 
-
-# setting the working directory
-# make sure to change the path to your local directory for path_loc
-path_loc <- "/Users/hossein/complain"
-setwd(path_loc)
-
-
 # reading in the data
 df <- read_csv("adult.csv")
 #colnames(df) = df[1, ] # the first row will be the header
@@ -39,33 +32,9 @@ glimpse(df)
 
 # changing character variables to factors
 df <- df %>% mutate_if(is.character, as.factor)
-#df$yearsalary <- as.numeric(df$yearsalary)
-#df$yearsalary <- factor(df$yearsalary)
 
-#df <- df %>% mutate_if(is.numeric, as.factor)
-
-# df2 <- df[ ,!(colnames(df) == "Complaint ID")]
-# changing SeniorCitizen variable to factor
-# df$SeniorCitizen <- as.factor(df$SeniorCitizen)
-
-# looking for missing values
-#df %>% map(~ sum(is.na(.)))
-
-#df[df == "N/A"]  <- NA
-#df <- df[which( complete.cases(df)) ,]
-
-#df2$Product <- fct_explicit_na(df2[c(2)], na_level = "(Missing)")
-#df2[c(2:3)]
-# imputing with the median
-#df <- df %>% 
-#  mutate(year-salary = replace(year-salary,
-#                                is.na(TotalCharges),
-#                                median(TotalCharges, na.rm = T)))
-
-
-# removing customerID; doesn't add any value to the model
-#df <- df %>% select(-"Complaint ID")
-#df <- drop_na(df)
+# removing Complaint ID; doesn't add any value to the model
+df <- df %>% select(-"Complaint ID")
 
 # 4) Split the data
 #install.packages("caret")
@@ -93,9 +62,9 @@ yearsalary.probs <- predict(fit, test, type="response")
 head(yearsalary.probs)
 
 # Looking at the response encoding
-contrasts(df$yearsalary)  # Yes = 1, No = 0
+contrasts(df$yearsalary)  # >50K = 1, <=50K = 0
 
-# converting probabilities to "Yes" and "No" 
+# converting probabilities to ">50K" and "<=50K" 
 glm.pred = rep("<=50K", length(yearsalary.probs))
 glm.pred[yearsalary.probs > 0.5] = ">50K"
 glm.pred <- as.factor(glm.pred)
